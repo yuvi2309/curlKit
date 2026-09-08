@@ -1,0 +1,52 @@
+{
+    "info": {
+        "name": "Sample Collection",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Get Post",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {"key": "Accept", "value": "application/json"}
+                ],
+                "url": {
+                    "raw": "https://jsonplaceholder.typicode.com/posts/{{post_id}}",
+                    "query": []
+                }
+            }
+        },
+        {
+            "name": "Create Post",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"title\": \"{{title}}\", \"body\": \"{{body}}\", \"userId\": {{user_id}}}"
+                },
+                "url": {
+                    "raw": "https://jsonplaceholder.typicode.com/posts",
+                    "query": []
+                }
+            }
+        },
+        {
+            "name": "API Folder",
+            "item": [
+                {
+                    "name": "Get Users",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "https://jsonplaceholder.typicode.com/users"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

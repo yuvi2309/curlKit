@@ -1,0 +1,61 @@
+{
+  "name": "Auth + Fetch Users",
+  "description": "Login to get a token, then use it to fetch a list of users and extract their IDs",
+  "nodes": [
+    {
+      "id": "login",
+      "type": "curl",
+      "config": {
+        "curl_command": "curl -X POST https://httpbin.org/post -H 'Content-Type: application/json' -d '{\"username\":\"admin\",\"password\":\"secret\"}'",
+        "run_mode": "once",
+        "ttl_seconds": 300,
+        "extractions": [
+          { "name": "token", "jsonpath": "$.json.username" }
+        ]
+      },
+      "position": { "x": 100, "y": 100 }
+    },
+    {
+      "id": "check_login",
+      "type": "assert",
+      "config": {
+        "condition": {
+          "left": "{{nodes.login.$.status_code}}",
+          "operator": "==",
+          "right": "200"
+        },
+        "on_fail": "stop"
+      },
+      "position": { "x": 100, "y": 250 }
+    },
+    {
+      "id": "fetch_users",
+      "type": "curl",
+      "config": {
+        "curl_command": "curl https://httpbin.org/get -H 'Authorization: Bearer {{nodes.login.extractions.token}}'",
+        "run_mode": "per_iteration",
+        "extractions": [
+          { "name": "origin", "jsonpath": "$.origin" }
+        ]
+      },
+      "position": { "x": 100, "y": 400 }
+    },
+    {
+      "id": "extract_data",
+      "type": "extract",
+      "config": {
+        "source_node": "fetch_users",
+        "extractions": [
+          { "name": "user_origin", "jsonpath": "$.origin" },
+          { "name": "user_url", "jsonpath": "$.url" }
+        ]
+      },
+      "position": { "x": 100, "y": 550 }
+    }
+  ],
+  "edges": [
+    { "source": "login", "target": "check_login" },
+    { "source": "check_login", "target": "fetch_users" },
+    { "source": "fetch_users", "target": "extract_data" }
+  ]
+}
