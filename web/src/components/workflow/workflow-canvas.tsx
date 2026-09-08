@@ -293,8 +293,8 @@ export default function WorkflowCanvas() {
 
         <div className="p-3 border-t space-y-2">
           <Popover open={showTemplate} onOpenChange={setShowTemplate}>
-            <PopoverTrigger asChild>
-              <Button variant="outline" size="sm" className="w-full gap-2 text-xs"><Wand2 className="w-3.5 h-3.5 text-amber-400" /> Quick Start</Button>
+            <PopoverTrigger>
+              <Button variant="outline" size="sm" className="w-full gap-2 text-xs" onClick={() => setShowTemplate(!showTemplate)}><Wand2 className="w-3.5 h-3.5 text-amber-400" /> Quick Start</Button>
             </PopoverTrigger>
             <PopoverContent side="right" sideOffset={8} className="w-56 p-2">
               <p className="text-xs font-medium mb-2">Choose a template:</p>

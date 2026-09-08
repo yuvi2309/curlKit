@@ -59,7 +59,7 @@ export default function BatchRunner({
   const [step, setStep] = useState(1);
   const [curlInput, setCurlInput] = useState("");
   const [originalCurl, setOriginalCurl] = useState("");
-  const [parsed, setParsed] = useState<Record<string, unknown> | null>(null);
+  const [parsed, setParsed] = useState<any>(null);
   const [variables, setVariables] = useState<string[]>([]);
   const [csvContent, setCsvContent] = useState("");
   const [csvFileName, setCsvFileName] = useState("");

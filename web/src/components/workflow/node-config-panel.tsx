@@ -155,7 +155,7 @@ function SimpleCurlEditor({ data, update }: { data: Record<string, unknown>; upd
     <div className="space-y-2">
       <div className="flex items-center justify-between">
         <Label>cURL Command</Label>
-        {data.curl_command && <span className="text-[10px] text-emerald-400">Parsed</span>}
+        {data.curl_command ? <span className="text-[10px] text-emerald-400">Parsed</span> : null}
       </div>
       <Textarea
         value={rawCurl}
@@ -170,12 +170,12 @@ function SimpleCurlEditor({ data, update }: { data: Record<string, unknown>; upd
         </Button>
         {parseError && <span className="text-xs text-red-400">{parseError}</span>}
       </div>
-      {data.url && (
+      {data.url ? (
         <div className="text-xs font-mono px-2 py-1.5 bg-muted/40 rounded">
           <span className="text-blue-400 font-semibold">{(data.method as string) || "GET"}</span>{" "}
           <span className="text-muted-foreground">{(data.url as string) || ""}</span>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
