@@ -42,38 +42,13 @@ from src.workflow.storage import (
 
 app = FastAPI(title="cURL Kit API", version="1.0.0")
 
-# Allow origins from env var (comma-separated), local dev, and all Netlify deploy previews
-_cors_origins = [
-    "http://localhost:3000",
-    "http://localhost:3001",
-    "http://127.0.0.1:3001",
-]
-if os.getenv("CORS_ORIGINS"):
-    _cors_origins += [o.strip() for o in (os.getenv("CORS_ORIGINS") or "").split(",")]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_cors_origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Also add middleware to handle Netlify deploy preview URLs (pattern: *--*.netlify.app)
-from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import Response
-
-class NetlifyCorsMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request, call_next):
-        origin = request.headers.get("origin", "")
-        if origin.endswith(".netlify.app") or "netlify.app" in origin:
-            response = await call_next(request)
-            response.headers["Access-Control-Allow-Origin"] = origin
-            response.headers["Access-Control-Allow-Credentials"] = "true"
-            return response
-        return await call_next(request)
-
-app.add_middleware(NetlifyCorsMiddleware)
 
 
 # ── Request / Response Models ──────────────────────────────────────
