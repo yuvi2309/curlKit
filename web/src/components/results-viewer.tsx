@@ -15,7 +15,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import {
   Table,
@@ -226,9 +225,8 @@ export default function ResultsViewer({ data }: { data: unknown }) {
             Request Results
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <ScrollArea className="max-h-[600px]">
-            <div className="space-y-2">
+        <CardContent className="overflow-hidden">
+            <div className="max-h-[600px] overflow-y-auto space-y-2 pr-2">
               {filtered.map((r, idx) => {
                 const isExpanded = expandedRow === idx;
                 return (
@@ -309,7 +307,7 @@ export default function ResultsViewer({ data }: { data: unknown }) {
                               <p className="text-xs font-medium text-muted-foreground mb-1">
                                 RESPONSE HEADERS
                               </p>
-                              <ScrollArea className="max-h-32">
+                              <div className="max-h-32 overflow-y-auto">
                                 <div className="rounded-md border bg-muted/40 p-2 space-y-0.5">
                                   {Object.entries(r.response_headers).map(
                                     ([k, v]) => (
@@ -325,7 +323,7 @@ export default function ResultsViewer({ data }: { data: unknown }) {
                                     )
                                   )}
                                 </div>
-                              </ScrollArea>
+                              </div>
                             </div>
                           </>
                         )}
@@ -338,13 +336,13 @@ export default function ResultsViewer({ data }: { data: unknown }) {
                               <p className="text-xs font-medium text-muted-foreground mb-1">
                                 RESPONSE BODY
                               </p>
-                              <ScrollArea className="max-h-64">
-                                <pre className="rounded-md border bg-muted/40 p-2 text-xs font-mono whitespace-pre-wrap">
+                              <div className="max-h-64 overflow-y-auto rounded-md border bg-muted/40">
+                                <pre className="p-2 text-xs font-mono whitespace-pre-wrap">
                                   {r.response_body_parsed
                                     ? JSON.stringify(r.response_body_parsed, null, 2)
                                     : r.response_body}
                                 </pre>
-                              </ScrollArea>
+                              </div>
                             </div>
                           </>
                         )}
@@ -354,7 +352,6 @@ export default function ResultsViewer({ data }: { data: unknown }) {
                 );
               })}
             </div>
-          </ScrollArea>
         </CardContent>
       </Card>
     </div>
